@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Header from "./_header";
+import Header from "../_header";
 
-export default function Blog() {
+export default function AboutMe() {
   return (
     <>
       <Head>

@@ -940,10 +940,14 @@ input:checked + .toggle-bg {
 
 .container {
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .\!container {
   width: 100% !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
 }
 
 @media (min-width: 640px) {
@@ -4218,14 +4222,6 @@ input:checked + .toggle-bg {
     height: 1.75rem;
   }
 
-  .sm\:h-9 {
-    height: 2.25rem;
-  }
-
-  .sm\:h-12 {
-    height: 3rem;
-  }
-
   .sm\:w-10 {
     width: 2.5rem;
   }
@@ -4269,10 +4265,6 @@ input:checked + .toggle-bg {
     order: 2;
   }
 
-  .md\:m-2 {
-    margin: 0.5rem;
-  }
-
   .md\:m-4 {
     margin: 1rem;
   }
@@ -4280,11 +4272,6 @@ input:checked + .toggle-bg {
   .md\:mx-2 {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-  }
-
-  .md\:mx-4 {
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
 
   .md\:mr-6 {
