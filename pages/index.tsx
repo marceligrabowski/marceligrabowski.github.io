@@ -1,30 +1,22 @@
 import Head from "next/head";
-import Header from "./_header";
-import { getSortedPostsData } from "../lib/posts";
-import { PostProps } from "../models/post";
-import Date from "../components/date";
-import Link from "next/link";
+import { getPage } from "../../lib/pages";
+import { PageProps } from "../../models/page";
+import Header from "../_header";
 
 interface Props {
-  posts: PostProps[];
+  data: PageProps;
 }
 
 export async function getStaticProps() {
+  const data = await getPage("about-me");
   return {
-    redirect: {
-      destination: "/about-me",
-      permanent: false,
+    props: {
+      data,
     },
   };
-  // const posts = await getSortedPostsData();
-  // return {
-  //   props: {
-  //     posts,
-  //   },
-  // };
 }
 
-export default function Blog(props: Props) {
+export default function AboutMe(props: Props) {
   return (
     <>
       <Head>
@@ -34,23 +26,9 @@ export default function Blog(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <div>
-        {props.posts.map((post) => (
-          <article
-            key={post.metaInformation.slug}
-            className="container mx-auto prose lg:prose-xl dark:prose-invert px-2"
-          >
-            <Link href={`posts/${post.metaInformation.slug}`}>
-              <h2 className="font-bold">{post.metaInformation.title} </h2>
-            </Link>
-            <small className="font-light text-md">
-              Posted on <Date dateString={post.metaInformation.date} />
-            </small>
-            <div dangerouslySetInnerHTML={{ __html: post.excerptMdx }}></div>
-            <Link href={`posts/${post.metaInformation.slug}`}>[Read more]</Link>
-            <hr />
-          </article>
-        ))}
+      <div className="container prose lg:prose-xl dark:prose-invert px-2">
+        <h1 className="text-4xl font-extrabold text-center">About</h1>
+        <div dangerouslySetInnerHTML={{ __html: props.data.mdx }}></div>
       </div>
     </>
   );
