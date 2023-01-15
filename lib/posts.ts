@@ -8,7 +8,8 @@ import prism from "remark-prism";
 const postsDirectory = path.join(process.cwd(), "posts");
 
 export function getPostsRoutes() {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs.readdirSync(postsDirectory)
+  .filter((value) => value.includes("md"));
   return fileNames.map((fileName) => {
     return {
       params: {

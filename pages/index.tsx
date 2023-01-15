@@ -1,7 +1,7 @@
 import Head from "next/head";
-import { getPage } from "../../lib/pages";
-import { PageProps } from "../../models/page";
-import Header from "../_header";
+import { getPage } from "../lib/pages";
+import { PageProps } from "../models/page";
+import Header from "./_header";
 
 interface Props {
   data: PageProps;

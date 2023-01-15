@@ -1,8 +1,8 @@
 import Head from "next/head";
-import Header from "./_header";
-import { getSortedPostsData } from "../lib/posts";
-import { PostProps } from "../models/post";
-import Date from "../components/date";
+import Header from "../_header";
+import { getSortedPostsData } from "../../lib/posts";
+import { PostProps } from "../../models/post";
+import Date from "../../components/date";
 import Link from "next/link";
 
 interface Props {
