@@ -50,7 +50,9 @@ export async function getPost(params: { id: string }) {
 
 export async function getSortedPostsData() {
   // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs
+    .readdirSync(postsDirectory)
+    .filter((value) => value.includes("md"));
   const allPostsData = await Promise.all(
     fileNames.map(async (fileName) => {
       const id = fileName.replace(/\.md$/, "");
@@ -78,8 +80,7 @@ export async function getSortedPostsData() {
           ],
         })
         .process(excerpt!);
-      const excerptHtml =
-        processedExcerpt.toString();
+      const excerptHtml = processedExcerpt.toString();
       //TODO: Fix it!
       data.slug = id;
 
