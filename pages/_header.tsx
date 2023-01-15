@@ -13,8 +13,8 @@ export default function Header() {
         href="https://marceligrabowski.github.io/"
       >
         <Avatar
-          className="mr-3"
-          img="mua.jpg"
+          className="mr-3 hidden md:block"
+          img="/mua.jpg"
           rounded={true}
           size="lg"
         ></Avatar>
@@ -27,22 +27,22 @@ export default function Header() {
           href="https://www.linkedin.com/in/marceligrabowski/"
           target="_blank"
         >
-          <Button className="m-1">
-            <AiFillLinkedin className="h-6 w-6" />
+          <Button className="m-1" pill={true}>
+            <AiFillLinkedin className="md:h-6 md:w-6 h-3 w-3" />
           </Button>
         </Link>
         <Link href="https://github.com/marceligrabowski" target="_blank">
-          <Button className="m-1">
-            <AiOutlineGithub className="h-6 w-6" />
+          <Button className="m-1" pill={true}>
+            <AiOutlineGithub className="md:h-6 md:w-6 h-3 w-3" />
           </Button>
         </Link>
         <Navbar.Toggle />
       </div>
 
       <Navbar.Collapse className="md:m-4">
-        <Navbar.Link href="/" active={asPath === "/"}>
+        {/* <Navbar.Link href="/" active={asPath === "/"}>
           Blog
-        </Navbar.Link>
+        </Navbar.Link> */}
         <Navbar.Link href="/about-me" active={asPath === "/about-me"}>
           About me
         </Navbar.Link>

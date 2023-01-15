@@ -3,3 +3,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("../node_modules/prismjs/themes/prism-tomorrow.css");
+@import url("../node_modules/prismjs/plugins/autolinker/prism-autolinker.css");
+@import url("../node_modules/prismjs/plugins/command-line/prism-command-line.css");
+@import url("../node_modules/prismjs/plugins/diff-highlight/prism-diff-highlight.css");
+@import url("../node_modules/prismjs/plugins/inline-color/prism-inline-color.css");
+@import url("../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css");
+
