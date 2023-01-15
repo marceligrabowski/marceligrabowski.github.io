@@ -43,7 +43,7 @@ export default function Header() {
         {/* <Navbar.Link href="/" active={asPath === "/"}>
           Blog
         </Navbar.Link> */}
-        <Navbar.Link href="/about-me" active={asPath === "/about-me"}>
+        <Navbar.Link href="/" active={asPath === "/about-me"}>
           About me
         </Navbar.Link>
         <Navbar.Link href="/resume.pdf" target="_blank">
