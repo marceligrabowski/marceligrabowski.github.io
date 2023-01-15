@@ -10,12 +10,18 @@ interface Props {
 }
 
 export async function getStaticProps() {
-  const posts = await getSortedPostsData();
   return {
-    props: {
-      posts,
+    redirect: {
+      destination: "/about-me",
+      permanent: false,
     },
   };
+  // const posts = await getSortedPostsData();
+  // return {
+  //   props: {
+  //     posts,
+  //   },
+  // };
 }
 
 export default function Blog(props: Props) {
@@ -30,7 +36,10 @@ export default function Blog(props: Props) {
       <Header></Header>
       <div>
         {props.posts.map((post) => (
-          <article key={post.metaInformation.slug} className="container mx-auto prose lg:prose-xl dark:prose-invert px-2">
+          <article
+            key={post.metaInformation.slug}
+            className="container mx-auto prose lg:prose-xl dark:prose-invert px-2"
+          >
             <Link href={`posts/${post.metaInformation.slug}`}>
               <h2 className="font-bold">{post.metaInformation.title} </h2>
             </Link>
