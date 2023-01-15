@@ -9,4 +9,4 @@ Java/Kotlin Software Developer based in Wrocław, Poland 🇵🇱 and working fo
 	- This page is powered by [Next.JS](https://nextjs.org/)
 	- As 17-year-old developed [Windows Phone](https://en.wikipedia.org/wiki/Windows_Phone) apps with total 50k+ downloads on Polish market
 	- Hired once as .NET Developer - after 3 months swiftly transitioned to Java. 🤷🏼‍♂️
-	- In love with competition. Participated in doing some cool things in hackathon 🔥 mode with colleagues like [this](https://www.youtube.com/watch?v=uKyuLSJtaG0) and [this](https://youtu.be/Z4od83iG0Jc)
+	- In love with competition. Participated in doing some cool things with colleagues in hackathon 🔥 mode  like [this](https://www.youtube.com/watch?v=uKyuLSJtaG0) and [this](https://youtu.be/Z4od83iG0Jc)

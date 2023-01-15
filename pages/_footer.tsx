@@ -5,7 +5,7 @@ export default function FooterComponent() {
     <Footer container={true}>
       <Footer.Copyright href="/" by="Marceli Grabowski" year={new Date().getFullYear()} />
       <Footer.LinkGroup>
-        <Footer.Link href="/about-me">About</Footer.Link>
+        <Footer.Link href="/">About</Footer.Link>
       </Footer.LinkGroup>
     </Footer>
   );
