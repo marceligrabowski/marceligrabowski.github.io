@@ -1,4 +1,4 @@
-Java/Kotlin Software Developer based in Wrocław, Poland 🇵🇱 and working for [Xebia](https://xebia.com) 🇵🇱/🇳🇱
+Java/Kotlin Software Developer based in Wrocław, Poland 🇵🇱
 ### Background
 
 - 5+ years of professional experience as software developer (and about extra 6 years as hobby before that)
