@@ -1,0 +1,28 @@
+---
+interface Props {
+  tags: string[];
+  linked?: boolean;
+  class?: string;
+}
+
+const { tags, linked = true, class: className } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <div class:list={["flex flex-wrap gap-2", className]}>
+    {tags.map((tag) => (
+      linked ? (
+        <a
+          href={`/tags/${tag.toLowerCase().replaceAll(" ", "-")}`}
+          class="text-xs font-mono border border-current px-2 py-1 opacity-65 hover:border-accent hover:opacity-100 hover:text-accent transition-all duration-300"
+        >
+          {tag}
+        </a>
+      ) : (
+        <span class="text-xs font-mono border border-current px-2 py-1 opacity-65">
+          {tag}
+        </span>
+      )
+    ))}
+  </div>
+)}

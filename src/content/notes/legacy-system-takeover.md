@@ -1,0 +1,213 @@
+---
+title: "How I build an operating model during legacy system takeover"
+description: "Before recommending modernization, I first separate facts from assumptions and build a usable operating model of how the legacy system really behaves."
+date: 2026-05-30
+tags: ["Legacy", "Architecture", "Modernization", "Decision-making"]
+draft: false
+---
+
+When I enter a legacy system, my first goal is not to judge the architecture or propose a modernization plan. It is to build an operating model: a practical understanding of how the system actually behaves.
+
+Documentation helps, but I do not treat it as the source of truth. I treat it as a set of hypotheses.
+
+The real work starts when those hypotheses are validated against runtime behavior, code, logs, configuration, data and the way the team actually operates the system.
+
+## Documentation is an input
+
+Documentation is often the fastest way to understand what someone believed the system was supposed to be. It can show terminology, integration boundaries, deployment assumptions and old decisions that are no longer visible in code.
+
+But documentation also drifts.
+
+Systems change during incidents. Credentials move. Cloud resources are recreated manually. A vendor delivers a workaround and never updates the diagram. A migration starts, stops halfway, and becomes the new normal. A feature flag is added for one customer and quietly becomes part of the operating model.
+
+That is why I do not treat documentation as the source of truth. I treat it as input.
+
+A useful document gives me questions to verify:
+
+- does this service still exist?
+- is this endpoint still called?
+- is this queue active or just left over?
+- is this diagram showing the deployed system or the intended system?
+- are these failure modes real, historical or theoretical?
+
+The difference matters. A modernization plan based on the intended system can be worse than no plan at all.
+
+## I build an operating model first
+
+Before proposing larger changes, I want a working model of how the system actually behaves.
+
+Not a perfect model. Not a full architecture document. A model good enough to answer practical questions:
+
+- where does a request, event or scheduled job enter the system?
+- which components are on the critical path?
+- which parts are still actively used?
+- what data is read, written or transformed?
+- where are the operational risks?
+- what can be changed safely?
+- what should not be touched yet?
+
+In one vendor-built Java portal environment, the written documentation described the high-level platform, but not the real runtime shape. The useful progress came from combining the docs with a local containerized setup, module inspection, configuration comparison and logs from real execution paths.
+
+The point was not to admire the legacy architecture or complain about it. The point was to make the system less mysterious.
+
+## Evidence I check
+
+I usually look for several kinds of evidence. None of them is perfect alone.
+
+### Code
+
+Code shows what can happen, not always what does happen.
+
+I look for entry points, integration clients, scheduled tasks, feature flags, database access patterns and places where domain assumptions are encoded directly into control flow.
+
+I also look for dead-looking code carefully. In legacy systems, “unused” code can still be triggered by a batch process, a rarely used customer flow or a manual operational path.
+
+### Runtime behavior
+
+A running system settles arguments quickly.
+
+If possible, I want the smallest useful executable path: local runtime, Docker setup, test environment, replayable message, curlable endpoint, scheduled job trigger, anything that turns discussion into observable behavior.
+
+A local setup does not need to reproduce production perfectly. It needs to expose enough behavior to test assumptions safely.
+
+I am careful not to confuse “it runs locally” with “this is how it behaves in production.” A local setup is useful when it makes assumptions testable. Production or production-like signals are still needed for workload shape, timing, failure modes and operational risk.
+
+### Logs and metrics
+
+Logs and metrics show what the system experiences under real use.
+
+They also reveal vocabulary. The names used in logs often differ from the names used in documentation, tickets or stakeholder conversations. That mismatch is a clue. It can point to historical concepts, renamed flows or hidden boundaries.
+
+I pay attention to boring signals:
+
+- repeated warnings that everyone ignores,
+- retries that hide upstream instability,
+- scheduled tasks that run longer than expected,
+- endpoints that are rarely called but operationally critical,
+- cloud functions that look small in code but dominate cost because of execution pattern.
+
+### Configuration
+
+Configuration is often where the real architecture lives.
+
+Environment variables, cloud resource names, identity provider settings, connection strings, feature flags, deployment parameters and secret references can contradict the diagram more directly than code does.
+
+For identity and authentication work, configuration drift can be more important than application code. The difference between “this is how login works” and “this is how login works in this tenant, with this redirect URI, this token lifetime and this legacy client” is not a detail.
+
+### Data
+
+Data exposes what the system has tolerated.
+
+Schema design, nullability, duplicate records, inconsistent statuses, historical migrations and odd timestamp patterns can all reveal real behavior that nobody remembers clearly.
+
+I do not assume the database represents the intended domain. I treat it as evidence of what the system has been allowed to do over time.
+
+### Deployment model
+
+A system is not just code plus database.
+
+It is also deployment order, resource ownership, network rules, cloud permissions, scheduled jobs, manual steps, monitoring gaps and rollback paths.
+
+This is especially important in cloud-heavy legacy environments. A service can look simple in a repository and still be operationally expensive because of how it is triggered, scaled, monitored or billed.
+
+### People who operate it
+
+The people who keep the system alive often know things that are not written down.
+
+I try to ask practical questions rather than broad ones:
+
+- what breaks most often?
+- what do you check first during an incident?
+- which alert is noisy but dangerous to ignore?
+- which deployment step is manual?
+- which component are people afraid to touch?
+- what does the vendor documentation not mention?
+
+These answers are not automatically true either. They are another input. But they often point to the right place to verify.
+
+## I separate facts from assumptions
+
+During takeover work, I try to make uncertainty visible.
+
+A simple system map can help, but only if it distinguishes what is known from what is guessed. I prefer notes that say:
+
+- confirmed by code,
+- confirmed by runtime behavior,
+- seen in logs,
+- inferred from configuration,
+- reported by the team,
+- not verified yet.
+
+This prevents a common failure mode: a diagram starts as a hypothesis, gets copied into a slide deck, and becomes “the architecture” before anyone checks it.
+
+The goal is not to create bureaucracy. The goal is to stop treating unknowns as facts.
+
+## Modernization follows evidence
+
+A legacy takeover often creates pressure to propose fixes immediately.
+
+Sometimes there are obvious risks that should be handled quickly: exposed secrets, broken authentication settings, missing backups, painful deployment steps, unbounded retries, or cloud workloads with a cost pattern nobody noticed.
+
+But many changes should wait until the operating model is clearer.
+
+I usually treat this as takeover triage: fix now, observe, or do not touch yet.
+
+### Fix now
+
+Small changes with clear risk reduction and limited blast radius.
+
+Examples: remove a leaked secret, add missing monitoring to a critical job, document a manual deployment step, pin a dangerous configuration value, or create a reproducible local path for investigation.
+
+### Observe
+
+Areas that look suspicious but need more evidence.
+
+Examples: a cloud function that might be expensive because of trigger frequency, a database table with confusing status transitions, a retry loop that hides upstream failures, or an identity flow that works but nobody can explain confidently.
+
+### Do not touch yet
+
+Parts that are poorly understood and important enough that changing them would be gambling.
+
+This is not fear. It is risk management. “Do not touch yet” is a temporary decision, not a permanent excuse.
+
+## What this is not
+
+This is not a call to document everything before changing anything.
+
+It is also not an argument for slow modernization. Some risks should be fixed immediately.
+
+The point is to avoid making large technical decisions from a story about the system when the real operating model is still unknown.
+
+## What I want to leave behind
+
+After a takeover phase, the team should have more than a list of complaints.
+
+They should have a clearer operating model:
+
+- the main runtime flows,
+- known gaps between documentation and reality,
+- critical operational risks,
+- cost or performance hotspots worth investigating,
+- modernization candidates,
+- areas that need observation before change,
+- decisions that can now be made with less guessing.
+
+This is where architecture becomes useful. Not as a purity exercise, but as a way to reduce uncertainty and make better technical decisions.
+
+## Takeover checklist
+
+Before I trust a legacy-system description, I want to know:
+
+- where the code actually runs,
+- which configuration is active,
+- which entry points are still used,
+- what the logs say during real flows,
+- which metrics show workload shape,
+- what data contradicts the documentation,
+- who operates the system when it fails,
+- which deployment steps are manual,
+- which parts are costly, fragile or risky,
+- what can be changed safely now,
+- what should only be observed for now.
+
+If those questions are unanswered, I do not yet understand the system. I only understand a story about the system.

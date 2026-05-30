@@ -1,0 +1,109 @@
+---
+import "../styles/global.css";
+import "@fontsource/archivo";
+import "@fontsource/manrope";
+import Header from "../components/Header.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title = "Technical notes | Marceli Grabowski",
+  description = "Technical notes from working with complex backend, cloud and legacy systems.",
+  type = "website",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL("/og-image.svg", Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Marceli Grabowski" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Technical notes | Marceli Grabowski" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark") {
+          document.documentElement.classList.add("dark");
+          document.documentElement.classList.remove("light");
+        } else if (saved === "light") {
+          document.documentElement.classList.add("light");
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Technical notes | Marceli Grabowski",
+        "url": "https://marceligrabowski.github.io/",
+        "description": "Technical notes from working with complex backend, cloud and legacy systems.",
+        "author": {
+          "@type": "Person",
+          "name": "Marceli Grabowski",
+          "url": "https://www.marceligrabowski.pl/",
+          "sameAs": [
+            "https://github.com/marceligrabowski",
+            "https://linkedin.com/in/marceligrabowski"
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="antialiased selection:bg-accent selection:text-white">
+    <ThemeToggle />
+
+    <main class="w-full min-h-screen p-4 md:p-12 lg:p-24 max-w-[1500px] mx-auto">
+      <Header />
+      <slot />
+
+      <footer class="mt-24 mb-10 border-t border-current pt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="text-xs font-mono uppercase opacity-50">
+          &copy; {new Date().getFullYear()} Marceli Grabowski
+        </div>
+        <a
+          href="https://www.marceligrabowski.pl/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs font-mono uppercase tracking-wider opacity-70 hover:text-accent hover:opacity-100 transition-all duration-300"
+        >
+          Professional homepage →
+        </a>
+      </footer>
+    </main>
+  </body>
+</html>
