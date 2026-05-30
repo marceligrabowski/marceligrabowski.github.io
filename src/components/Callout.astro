@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  kind?: "principle" | "example" | "risk" | "decision";
+}
+
+const { title, kind = "principle" } = Astro.props;
+const labels = {
+  principle: "Principle",
+  example: "Example",
+  risk: "Risk",
+  decision: "Decision",
+};
+---
+
+<aside class:list={["note-callout", `note-callout--${kind}`]}>
+  <div class="note-callout__label">{labels[kind]}</div>
+  <h3 class="note-callout__title">{title}</h3>
+  <div class="note-callout__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .note-callout {
+    margin: 2rem 0;
+    border: 2px solid currentColor;
+    border-left: 8px solid var(--accent);
+    padding: 1.25rem;
+    background: color-mix(in srgb, var(--text-color) 4%, transparent);
+  }
+
+  .note-callout__label {
+    margin-bottom: 0.65rem;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .note-callout__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 900;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .note-callout__body {
+    margin-top: 0.85rem;
+  }
+
+  .note-callout__body :global(p) {
+    margin: 0;
+  }
+
+  .note-callout__body :global(p + p) {
+    margin-top: 0.8rem;
+  }
+</style>

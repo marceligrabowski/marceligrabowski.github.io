@@ -1,0 +1,146 @@
+---
+const rows = [
+  {
+    source: "Code",
+    proves: "What can happen, where entry points and assumptions are encoded.",
+    misses: "Which paths are actually active under real use.",
+  },
+  {
+    source: "Runtime behavior",
+    proves: "How a flow behaves when executed, reproduced or triggered.",
+    misses: "Production workload shape, timing and rare failure modes.",
+  },
+  {
+    source: "Logs and metrics",
+    proves: "What the system experiences under real workload and failure conditions.",
+    misses: "Intent, domain meaning and code paths that lack instrumentation.",
+  },
+  {
+    source: "Configuration",
+    proves: "Active environment, identity settings, feature flags and deployed wiring.",
+    misses: "Whether the configuration is intentional, accidental or historical.",
+  },
+  {
+    source: "Data",
+    proves: "What the system has tolerated over time.",
+    misses: "The intended domain model or original business rule.",
+  },
+  {
+    source: "Deployment model",
+    proves: "Operational shape: resources, permissions, jobs, rollback paths and manual steps.",
+    misses: "Application-level behavior that only appears inside a flow.",
+  },
+  {
+    source: "Operators",
+    proves: "Where incidents, manual workarounds and fear points actually live.",
+    misses: "Facts that need validation against code, logs or runtime behavior.",
+  },
+];
+---
+
+<div class="evidence-matrix" aria-label="Evidence matrix">
+  <div class="evidence-matrix__header">
+    <div>Evidence</div>
+    <div>What it can prove</div>
+    <div>What it can miss</div>
+  </div>
+
+  {rows.map((row) => (
+    <div class="evidence-matrix__row">
+      <div class="evidence-matrix__source">{row.source}</div>
+      <div>{row.proves}</div>
+      <div>{row.misses}</div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .evidence-matrix {
+    margin: 2rem 0;
+    border: 2px solid currentColor;
+    font-size: 0.95rem;
+  }
+
+  .evidence-matrix__header,
+  .evidence-matrix__row {
+    display: grid;
+    grid-template-columns: 0.9fr 1.55fr 1.55fr;
+    gap: 1px;
+  }
+
+  .evidence-matrix__header > div,
+  .evidence-matrix__row > div {
+    padding: 0.9rem;
+    border-right: 1px solid var(--line-color);
+    border-bottom: 1px solid var(--line-color);
+  }
+
+  .evidence-matrix__header > div:last-child,
+  .evidence-matrix__row > div:last-child {
+    border-right: 0;
+  }
+
+  .evidence-matrix__row:last-child > div {
+    border-bottom: 0;
+  }
+
+  .evidence-matrix__header {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .evidence-matrix__source {
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .evidence-matrix__header {
+      display: none;
+    }
+
+    .evidence-matrix__row {
+      display: block;
+      border-bottom: 1px solid var(--line-color);
+      padding: 1rem;
+    }
+
+    .evidence-matrix__row:last-child {
+      border-bottom: 0;
+    }
+
+    .evidence-matrix__row > div {
+      border: 0;
+      padding: 0;
+    }
+
+    .evidence-matrix__row > div + div {
+      margin-top: 0.65rem;
+    }
+
+    .evidence-matrix__row > div:nth-child(2)::before,
+    .evidence-matrix__row > div:nth-child(3)::before {
+      display: block;
+      margin-bottom: 0.15rem;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .evidence-matrix__row > div:nth-child(2)::before {
+      content: "Can prove";
+    }
+
+    .evidence-matrix__row > div:nth-child(3)::before {
+      content: "Can miss";
+    }
+  }
+</style>

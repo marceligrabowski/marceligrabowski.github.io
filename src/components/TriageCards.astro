@@ -1,0 +1,89 @@
+---
+const cards = [
+  {
+    title: "Fix now",
+    description: "Clear risk reduction with limited blast radius.",
+    examples: ["exposed secrets", "missing monitoring", "dangerous configuration", "manual deployment step"],
+  },
+  {
+    title: "Observe",
+    description: "Suspicious areas that need more evidence before a larger decision.",
+    examples: ["cost-heavy function", "confusing status flow", "hidden retry loop", "unclear identity path"],
+  },
+  {
+    title: "Do not touch yet",
+    description: "Important parts that are not understood well enough to change safely.",
+    examples: ["critical path", "unknown dependency", "fragile integration", "rare operational flow"],
+  },
+];
+---
+
+<div class="triage-cards" aria-label="Takeover triage cards">
+  {cards.map((card, index) => (
+    <section class="triage-card">
+      <div class="triage-card__number">0{index + 1}</div>
+      <h3>{card.title}</h3>
+      <p>{card.description}</p>
+      <ul>
+        {card.examples.map((example) => <li>{example}</li>)}
+      </ul>
+    </section>
+  ))}
+</div>
+
+<style>
+  .triage-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .triage-card {
+    border: 2px solid currentColor;
+    padding: 1.15rem;
+    background: color-mix(in srgb, var(--text-color) 3%, transparent);
+  }
+
+  .triage-card__number {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    opacity: 0.9;
+  }
+
+  .triage-card h3 {
+    margin: 0.45rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .triage-card p {
+    margin: 0.85rem 0 0;
+    line-height: 1.55;
+  }
+
+  .triage-card ul {
+    margin: 1rem 0 0;
+    padding-left: 1.05rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    opacity: 0.82;
+  }
+
+  .triage-card li::marker {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .triage-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

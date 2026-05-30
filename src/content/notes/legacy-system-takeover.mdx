@@ -6,11 +6,20 @@ tags: ["Legacy", "Architecture", "Modernization", "Decision-making"]
 draft: false
 ---
 
+import Callout from "../../components/Callout.astro";
+import ChecklistPanel from "../../components/ChecklistPanel.astro";
+import EvidenceMatrix from "../../components/EvidenceMatrix.astro";
+import TriageCards from "../../components/TriageCards.astro";
+
 When I enter a legacy system, my first goal is not to judge the architecture or propose a modernization plan. It is to build an operating model: a practical understanding of how the system actually behaves.
 
 Documentation helps, but I do not treat it as the source of truth. I treat it as a set of hypotheses.
 
 The real work starts when those hypotheses are validated against runtime behavior, code, logs, configuration, data and the way the team actually operates the system.
+
+<Callout title="Documentation is useful, but it is not the operating model">
+  A document can explain what someone believed the system was supposed to be. The takeover work starts when that belief is checked against evidence.
+</Callout>
 
 ## Documentation is an input
 
@@ -53,6 +62,8 @@ The point was not to admire the legacy architecture or complain about it. The po
 ## Evidence I check
 
 I usually look for several kinds of evidence. None of them is perfect alone.
+
+<EvidenceMatrix />
 
 ### Code
 
@@ -152,21 +163,7 @@ But many changes should wait until the operating model is clearer.
 
 I usually treat this as takeover triage: fix now, observe, or do not touch yet.
 
-### Fix now
-
-Small changes with clear risk reduction and limited blast radius.
-
-Examples: remove a leaked secret, add missing monitoring to a critical job, document a manual deployment step, pin a dangerous configuration value, or create a reproducible local path for investigation.
-
-### Observe
-
-Areas that look suspicious but need more evidence.
-
-Examples: a cloud function that might be expensive because of trigger frequency, a database table with confusing status transitions, a retry loop that hides upstream failures, or an identity flow that works but nobody can explain confidently.
-
-### Do not touch yet
-
-Parts that are poorly understood and important enough that changing them would be gambling.
+<TriageCards />
 
 This is not fear. It is risk management. “Do not touch yet” is a temporary decision, not a permanent excuse.
 
@@ -194,7 +191,7 @@ They should have a clearer operating model:
 
 This is where architecture becomes useful. Not as a purity exercise, but as a way to reduce uncertainty and make better technical decisions.
 
-## Takeover checklist
+<ChecklistPanel title="Takeover checklist">
 
 Before I trust a legacy-system description, I want to know:
 
@@ -209,5 +206,7 @@ Before I trust a legacy-system description, I want to know:
 - which parts are costly, fragile or risky,
 - what can be changed safely now,
 - what should only be observed for now.
+
+</ChecklistPanel>
 
 If those questions are unanswered, I do not yet understand the system. I only understand a story about the system.
